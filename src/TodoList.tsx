@@ -2,6 +2,8 @@ import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {FilterValuesType, TaskType} from "./App";
 
 type TodoListPropsType = {
+    id:string
+    key:string
     title: string
     filter: FilterValuesType
     tasks: Array<TaskType>
