@@ -3,14 +3,14 @@ import {FilterValuesType, TaskType} from "./App";
 
 type TodoListPropsType = {
     id:string
-    key:string
     title: string
     filter: FilterValuesType
     tasks: Array<TaskType>
-    removeTask: (taskID: string) => void
-    changeFilter: (filter: FilterValuesType) => void
-    addTask: (title: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean) => void
+    removeTask: (taskID: string,todoListID: string) => void
+    changeFilter: (filter: FilterValuesType, todoListID: string) => void
+    addTask: (title: string, todoListID: string) => void
+    changeTaskStatus: (taskId: string, isDone: boolean, todoListID: string ) => void
+    removeTodoList : (todoListID: string) => void
 }
 
 const TodoList = (props: TodoListPropsType) => {
@@ -18,9 +18,9 @@ const TodoList = (props: TodoListPropsType) => {
     const [error, setError] = useState<boolean>(false)
     const errorStyles = {color:"red"}
     const jsxTaskElements = props.tasks.map(task => {
-        const removeTask = () => props.removeTask(task.id)
+        const removeTask = () => props.removeTask(task.id,props.id)
         const changeStatus = (event: ChangeEvent<HTMLInputElement>) => {
-            props.changeTaskStatus(task.id, event.currentTarget.checked)
+            props.changeTaskStatus(task.id, event.currentTarget.checked, props.id)
 
         }
         return (
@@ -38,15 +38,15 @@ const TodoList = (props: TodoListPropsType) => {
     const addTask = () => {
         const trimmedTitle = title.trim()
         if (trimmedTitle) {
-            props.addTask(title)
+            props.addTask(trimmedTitle,props.id)
         } else {
             setError(true)
         }
         setTitle("")
     }
-    const setAll = () => props.changeFilter('all')
-    const setActive = () => props.changeFilter('active')
-    const setCompleted = () => props.changeFilter('completed')
+    const setAll = () => props.changeFilter('all',props.id)
+    const setActive = () => props.changeFilter('active',props.id)
+    const setCompleted = () => props.changeFilter('completed',props.id)
 
     const changeTitle = (event: ChangeEvent<HTMLInputElement>) => {
         setError(false)
